@@ -14,7 +14,7 @@ export async function getAllUsers(params?: GetAllUsersParams): Promise<User[]> {
   return res.data;
 }
 
-export async function getUserDetail(user_id: number, branch_id: number): Promise<User> {
+export async function getUserDetail(user_id: number, _branch_id?: number): Promise<User> {
   // user_id가 0 또는 없으면 /me 엔드포인트 사용, 그렇지 않으면 특정 user 조회
   if (!user_id) {
     const res = await instance.get<User>(`/api/users/me`)

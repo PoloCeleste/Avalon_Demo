@@ -7,6 +7,7 @@ alembic==1.12.1
 pymysql==1.1.0
 cryptography==41.0.7
 aiomysql
+aiosqlite
 
 # Redis
 redis==5.0.1
@@ -21,6 +22,7 @@ python-multipart==0.0.6
 # Data Validation
 pydantic[email]==2.5.0
 pydantic-settings==2.1.0
+email-validator
 
 # Environment
 python-dotenv==1.0.0

@@ -1,0 +1,42 @@
+# Python
+
+**pycache**/
+_.py[cod]
+_$py.class
+_.so
+.Python
+env/
+venv/
+ENV/
+_.egg-info/
+
+# 로그
+
+\*.log
+logs/
+
+# DB
+
+_.db
+_.sqlite3
+
+# 환경 변수
+
+.env
+.env.local
+
+# IDE
+
+.vscode/
+.idea/
+_.swp
+_.swo
+
+# OS
+
+.DS_Store
+Thumbs.db
+
+# Alembic
+
+alembic/versions/\*.pyc
