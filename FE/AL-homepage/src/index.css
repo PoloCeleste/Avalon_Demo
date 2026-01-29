@@ -1,0 +1,41 @@
+/* src/index.css */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap');
+
+/* Tailwind (v4 지시어 또는 현재 설정에 맞게 유지) */
+@import 'tailwindcss';
+
+/* 전역 테마 변수 */
+@import './styles/theme.css';
+
+/* 앱 기본 레이어(필요한 최소만 유지) */
+:root {
+  color-scheme: light;
+}
+
+/* 레이아웃 기본 */
+html,
+body,
+#root {
+  height: 100%;
+}
+html {
+  zoom: 0.9;
+}
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* 포커스 표준화 (보강) */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+  border-radius: var(--radius-sm);
+}
+
+/* 유틸리티 보강 */
+.container-narrow {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 24px;
+}

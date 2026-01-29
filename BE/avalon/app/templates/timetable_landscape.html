@@ -1,0 +1,143 @@
+<!-- app/templates/timetable.html -->
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 1.5cm; /* 헤더 공간 확보를 위해 마진 조정 */
+    }
+    body {
+      font-family: "Pretendard", "Noto Sans KR", Arial, sans-serif;
+      font-size: 9pt;
+      color: #111;
+    }
+    .page-header {
+      position: fixed;
+      top: -1.2cm; /* 페이지 상단 마진 영역으로 이동 */
+      left: 0;
+      right: 0;
+      height: 1cm;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10pt;
+    }
+    .page-header .title {
+      font-weight: bold;
+    }
+    .page-header .period {
+      color: #555;
+    }
+    .content-wrapper {
+      /* column-count: 2; */ /* 1단으로 변경 */
+      /* column-gap: 15px; */
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      break-inside: avoid;
+    }
+    thead {
+      display: table-header-group;
+    }
+    tbody {
+      display: table-row-group;
+    }
+    tr {
+      break-inside: avoid-page;
+    }
+    tbody tr:nth-child(even) {
+      background-color: #f0f0f3ff;
+    }
+    th, td {
+      border: 1px solid #bbb;
+      padding: 4px 6px;
+      text-align: center;
+      word-break: keep-all;
+      vertical-align: top;
+    }
+    th {
+      background: #cdcdcdff;
+      white-space: nowrap;
+    }
+    td {
+      font-size: 7pt;
+      min-height: 25px; /* 최소 높이 유지 */
+    }
+    td.content {
+      text-align: left;
+    }
+    .test-only-row td {
+        background-color: #f0f8ff; /* 시험만 있는 날 강조 */
+    }
+    .session-block, .test-block, .todo-block, .homework-block {
+        margin-bottom: 4px;
+    }
+    .session-block:last-child, .test-block:last-child, .todo-block:last-child, .homework-block:last-child {
+        margin-bottom: 0;
+    }
+    /* 
+    th.col-date {
+      background: #e6f7f7;
+    }
+    td.col-date.mon-bg { background: #ffe5e5; }
+    td.col-date.tue-bg { background: #fff5e5; }
+    td.col-date.wed-bg { background: #fffde5; }
+    td.col-date.thu-bg { background: #e5ffe5; }
+    td.col-date.fri-bg { background: #e5f0ff; }
+    th.col-class, td.col-class {
+      /* background: #f3e6f7; */
+    }
+    th.col-curriculum, td.col-curriculum {
+      /* background: #f7f7e6; */
+    } */
+  </style>
+</head>
+<body>
+  <div class="page-header">
+    <div class="title">{{ class_name }} 3개월 시간표</div>
+    <div class="period">기간: {{ range_from }} ~ {{ range_to }}</div>
+  </div>
+
+  <div class="content-wrapper">
+    <table class="timetable">
+      <colgroup>
+        <col style="width: 5%;">
+        <col style="width: 5%;">
+        <col style="width: 17%;">
+        <col style="width: 27%;">
+        <col style="width: 46%;">
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="col-date">날짜</th>
+          <th class="col-class">수업</th>
+          <th class="col-curriculum">커리큘럼</th>
+          <th>공지</th>
+          <th>숙제</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in rows %}
+          {% if r.type == 'session' %}
+            <tr>
+              <td class="col-date{% if r.weekday == 'Mon' %} mon-bg{% elif r.weekday == 'Tue' %} tue-bg{% elif r.weekday == 'Wed' %} wed-bg{% elif r.weekday == 'Thu' %} thu-bg{% elif r.weekday == 'Fri' %} fri-bg{% endif %}">{{ r.date.strftime('%m/%d') }}<br>({{ r.weekday }})</td>
+              <td class="col-class content">{{ r.time_id }}교시: <br>{{ r.subject_nick }}</td>
+              <td class="col-curriculum content">{{ r.progress|safe }}</td>
+              <td class="content">{{ r.notice|safe }}</td>
+              <td class="content">{{ r.homework|safe }}</td>
+            </tr>
+          {% elif r.type == 'test_only' %}
+            <tr class="test-only-row">
+              <td class="col-date">{{ r.date.strftime('%m/%d') }}<br>({{ r.weekday }})</td>
+              <td colspan="4" class="content"><b>[시험]</b><br>{{ r.test|safe }}</td>
+            </tr>
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
